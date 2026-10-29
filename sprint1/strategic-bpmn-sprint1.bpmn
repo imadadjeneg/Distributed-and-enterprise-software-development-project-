@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_Strategic" targetNamespace="http://bpmn.io/schema/bpmn" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.10.0">
+  <bpmn:collaboration id="Collaboration_Strategic">
+    <bpmn:participant id="Participant_Customer" name="Customer" />
+    <bpmn:participant id="Participant_Payment" name="Payment Service" />
+    <bpmn:participant id="Participant_Platform" name="Marketplace Platform" processRef="Process_Platform" />
+    <bpmn:participant id="Participant_Producer" name="Producer" />
+    <bpmn:participant id="Participant_Verification" name="Certification Verification Service" />
+    <bpmn:messageFlow id="MF_Browse" name="Browse" sourceRef="Participant_Customer" targetRef="SP_Browse" />
+    <bpmn:messageFlow id="MF_PlaceOrder" name="Place order" sourceRef="Participant_Customer" targetRef="SP_Checkout" />
+    <bpmn:messageFlow id="MF_PaymentRequest" name="Payment request" sourceRef="SP_Checkout" targetRef="Participant_Payment" />
+    <bpmn:messageFlow id="MF_PaymentResult" name="Payment result" sourceRef="Participant_Payment" targetRef="SP_Checkout" />
+    <bpmn:messageFlow id="MF_Registration" name="Registration details" sourceRef="Participant_Producer" targetRef="SP_Onboarding" />
+    <bpmn:messageFlow id="MF_ProductInfo" name="Product info" sourceRef="Participant_Producer" targetRef="SP_Listing" />
+    <bpmn:messageFlow id="MF_CheckCert" name="Check certificate" sourceRef="SP_Listing" targetRef="Participant_Verification" />
+    <bpmn:messageFlow id="MF_CertResult" name="Verification result" sourceRef="Participant_Verification" targetRef="SP_Listing" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_Platform" isExecutable="false">
+    <bpmn:startEvent id="Start_Producer" name="Producer wants to sell" />
+    <bpmn:subProcess id="SP_Onboarding" name="Producer Registration and Onboarding" />
+    <bpmn:subProcess id="SP_Listing" name="Product Listing and Inventory" />
+    <bpmn:subProcess id="SP_Browse" name="Browse, Search and Basket" />
+    <bpmn:subProcess id="SP_Checkout" name="Checkout, Order and Payment" />
+    <bpmn:subProcess id="SP_Fulfilment" name="Order Fulfilment" />
+    <bpmn:subProcess id="SP_Commission" name="Commission and Payouts" />
+    <bpmn:endEvent id="End_Payouts" name="Payouts complete" />
+    <bpmn:startEvent id="Start_Quality" name="Quality concern reported" />
+    <bpmn:subProcess id="SP_Quality" name="Food Quality Incident and Traceability" />
+    <bpmn:endEvent id="End_Quality" name="Incident closed" />
+    <bpmn:sequenceFlow id="SF_1" sourceRef="Start_Producer" targetRef="SP_Onboarding" />
+    <bpmn:sequenceFlow id="SF_2" sourceRef="SP_Onboarding" targetRef="SP_Listing" />
+    <bpmn:sequenceFlow id="SF_3" sourceRef="SP_Listing" targetRef="SP_Browse" />
+    <bpmn:sequenceFlow id="SF_4" sourceRef="SP_Browse" targetRef="SP_Checkout" />
+    <bpmn:sequenceFlow id="SF_5" sourceRef="SP_Checkout" targetRef="SP_Fulfilment" />
+    <bpmn:sequenceFlow id="SF_6" sourceRef="SP_Fulfilment" targetRef="SP_Commission" />
+    <bpmn:sequenceFlow id="SF_7" sourceRef="SP_Commission" targetRef="End_Payouts" />
+    <bpmn:sequenceFlow id="SF_8" sourceRef="Start_Quality" targetRef="SP_Quality" />
+    <bpmn:sequenceFlow id="SF_9" sourceRef="SP_Quality" targetRef="End_Quality" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_Strategic">
+    <bpmndi:BPMNPlane id="BPMNPlane_Strategic" bpmnElement="Collaboration_Strategic">
+      <bpmndi:BPMNShape id="Participant_Customer_di" bpmnElement="Participant_Customer" isHorizontal="true">
+        <dc:Bounds x="160" y="60" width="440" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Participant_Payment_di" bpmnElement="Participant_Payment" isHorizontal="true">
+        <dc:Bounds x="620" y="60" width="660" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Participant_Platform_di" bpmnElement="Participant_Platform" isHorizontal="true">
+        <dc:Bounds x="160" y="200" width="1120" height="420" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Participant_Producer_di" bpmnElement="Participant_Producer" isHorizontal="true">
+        <dc:Bounds x="160" y="700" width="440" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Participant_Verification_di" bpmnElement="Participant_Verification" isHorizontal="true">
+        <dc:Bounds x="620" y="700" width="500" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Start_Producer_di" bpmnElement="Start_Producer">
+        <dc:Bounds x="210" y="502" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="190" y="545" width="76" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="SP_Onboarding_di" bpmnElement="SP_Onboarding" isExpanded="false">
+        <dc:Bounds x="300" y="480" width="160" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="SP_Listing_di" bpmnElement="SP_Listing" isExpanded="false">
+        <dc:Bounds x="540" y="480" width="240" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="SP_Browse_di" bpmnElement="SP_Browse" isExpanded="false">
+        <dc:Bounds x="250" y="250" width="160" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="SP_Checkout_di" bpmnElement="SP_Checkout" isExpanded="false">
+        <dc:Bounds x="500" y="250" width="240" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="SP_Fulfilment_di" bpmnElement="SP_Fulfilment" isExpanded="false">
+        <dc:Bounds x="830" y="250" width="160" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="SP_Commission_di" bpmnElement="SP_Commission" isExpanded="false">
+        <dc:Bounds x="1080" y="250" width="160" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="End_Payouts_di" bpmnElement="End_Payouts">
+        <dc:Bounds x="1142" y="382" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1122" y="425" width="76" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Start_Quality_di" bpmnElement="Start_Quality">
+        <dc:Bounds x="832" y="502" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="812" y="545" width="76" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="SP_Quality_di" bpmnElement="SP_Quality" isExpanded="false">
+        <dc:Bounds x="920" y="480" width="160" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="End_Quality_di" bpmnElement="End_Quality">
+        <dc:Bounds x="1132" y="502" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1112" y="545" width="76" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SF_1_di" bpmnElement="SF_1">
+        <di:waypoint x="246" y="520" />
+        <di:waypoint x="300" y="520" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SF_2_di" bpmnElement="SF_2">
+        <di:waypoint x="460" y="520" />
+        <di:waypoint x="540" y="520" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SF_3_di" bpmnElement="SF_3">
+        <di:waypoint x="660" y="480" />
+        <di:waypoint x="660" y="420" />
+        <di:waypoint x="330" y="420" />
+        <di:waypoint x="330" y="330" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SF_4_di" bpmnElement="SF_4">
+        <di:waypoint x="410" y="290" />
+        <di:waypoint x="500" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SF_5_di" bpmnElement="SF_5">
+        <di:waypoint x="740" y="290" />
+        <di:waypoint x="830" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SF_6_di" bpmnElement="SF_6">
+        <di:waypoint x="990" y="290" />
+        <di:waypoint x="1080" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SF_7_di" bpmnElement="SF_7">
+        <di:waypoint x="1160" y="330" />
+        <di:waypoint x="1160" y="382" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SF_8_di" bpmnElement="SF_8">
+        <di:waypoint x="868" y="520" />
+        <di:waypoint x="920" y="520" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SF_9_di" bpmnElement="SF_9">
+        <di:waypoint x="1080" y="520" />
+        <di:waypoint x="1132" y="520" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="MF_Browse_di" bpmnElement="MF_Browse">
+        <di:waypoint x="330" y="120" />
+        <di:waypoint x="330" y="250" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="338" y="170" width="60" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="MF_PlaceOrder_di" bpmnElement="MF_PlaceOrder">
+        <di:waypoint x="540" y="120" />
+        <di:waypoint x="540" y="250" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="455" y="170" width="75" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="MF_PaymentRequest_di" bpmnElement="MF_PaymentRequest">
+        <di:waypoint x="660" y="250" />
+        <di:waypoint x="660" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="565" y="170" width="90" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="MF_PaymentResult_di" bpmnElement="MF_PaymentResult">
+        <di:waypoint x="700" y="120" />
+        <di:waypoint x="700" y="250" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="708" y="170" width="90" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="MF_Registration_di" bpmnElement="MF_Registration">
+        <di:waypoint x="380" y="700" />
+        <di:waypoint x="380" y="560" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="252" y="640" width="120" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="MF_ProductInfo_di" bpmnElement="MF_ProductInfo">
+        <di:waypoint x="570" y="700" />
+        <di:waypoint x="570" y="560" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="490" y="640" width="72" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="MF_CheckCert_di" bpmnElement="MF_CheckCert">
+        <di:waypoint x="650" y="560" />
+        <di:waypoint x="650" y="700" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="656" y="640" width="90" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="MF_CertResult_di" bpmnElement="MF_CertResult">
+        <di:waypoint x="750" y="700" />
+        <di:waypoint x="750" y="560" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="758" y="640" width="105" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
